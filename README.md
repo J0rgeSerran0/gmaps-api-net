@@ -20,4 +20,6 @@ As you know, you can use the .NET Standard 1.3 packages into your .NET Core 1.0 
 
 In the other side, there was not updates for **gmaps-api-net** from February 2019, so I decided fork the project and upgrade it to use it with .NET Core 3.1.
 
+> **This project is built now as NET STANDARD 2.0**
+
 > For more details about the original project, read the official documentation about the library [here](ORIGINAL_README.md) :wink:
