@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Google.Maps.Roads
 {
-	public class SnapToRoadsRequest: BaseRequest
+	public class SnapToRoadsRequest : BaseRequest
 	{
 		/// <summary>
 		/// The path to be snapped.
@@ -23,17 +23,15 @@ namespace Google.Maps.Roads
 		public override Uri ToUri()
 		{
 			if (Path == null || !Path.Any())
-			{
 				throw new InvalidOperationException("Path is required");
-			}
 
-			var qsb = new Internal.QueryStringBuilder();
+			var queryStringBuilder = new Internal.QueryStringBuilder();
 
-			qsb.Append("path", string.Join("|", Path.AsEnumerable()));
+			queryStringBuilder.Append("path", string.Join("|", Path.AsEnumerable()));
 
-			qsb.Append("interpolate", Interpolate ? "true" : "false");
+			queryStringBuilder.Append("interpolate", Interpolate ? "true" : "false");
 
-			var url = "snapToRoads?" + qsb;
+			var url = "snapToRoads?" + queryStringBuilder;
 
 			return new Uri(url, UriKind.Relative);
 		}

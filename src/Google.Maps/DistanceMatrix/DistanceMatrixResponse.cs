@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using Google.Maps.Common;
+﻿using Newtonsoft.Json;
 
 namespace Google.Maps.DistanceMatrix
 {
@@ -48,7 +45,6 @@ namespace Google.Maps.DistanceMatrix
 		[JsonObject(MemberSerialization.OptIn)]
 		public class DistanceMatrixElement
 		{
-
 			[JsonProperty("status")]
 			public ServiceResponseStatus Status { get; set; }
 
@@ -57,6 +53,6 @@ namespace Google.Maps.DistanceMatrix
 
 			[JsonProperty("duration")]
 			public ValueText duration { get; set; }
-		}//end class
-	}//end class
-}//end namespace
+		}
+	}
+}

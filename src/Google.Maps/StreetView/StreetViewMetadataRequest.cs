@@ -1,7 +1,6 @@
 ﻿
-using System;
-
 using Google.Maps.Internal;
+using System;
 
 namespace Google.Maps.StreetView
 {
@@ -14,22 +13,16 @@ namespace Google.Maps.StreetView
 	{
 		public override Uri ToUri()
 		{
-			QueryStringBuilder qs = new QueryStringBuilder();
+			var queryStringBuilder = new QueryStringBuilder();
 
 			if (this.Location != null)
-			{
-				qs.Append("location", this.Location.GetAsUrlParameter());
-			}
+				queryStringBuilder.Append("location", this.Location.GetAsUrlParameter());
 			else if (string.IsNullOrEmpty(this.PanoramaId) == false)
-			{
-				qs.Append("pano", this.PanoramaId);
-			}
+				queryStringBuilder.Append("pano", this.PanoramaId);
 			else
-			{
 				throw new InvalidOperationException("Either Location or PanoramaId property are required.");
-			}
 
-			var url = "streetview/metadata?" + qs.ToString();
+			var url = "streetview/metadata?" + queryStringBuilder.ToString();
 
 			return new Uri(StreetViewService.HttpsUri, new Uri(url, UriKind.Relative));
 		}

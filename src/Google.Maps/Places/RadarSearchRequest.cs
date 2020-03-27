@@ -60,42 +60,29 @@ namespace Google.Maps.Places
 			qsb.Append("location", Location.GetAsUrlParameter())
 			   .Append("radius", (Radius.Value.ToString().ToLowerInvariant()));
 
-			if(!string.IsNullOrEmpty(Keyword))
-			{
+			if (!String.IsNullOrEmpty(Keyword))
 				qsb.Append("keyword", Keyword.ToString().ToLowerInvariant());
-			}
 
-			if(Minprice.HasValue)
-			{
+			if (Minprice.HasValue)
 				qsb.Append("minprice", Minprice.Value.ToString());
-			}
 
-			if(Maxprice.HasValue)
-			{
+			if (Maxprice.HasValue)
 				qsb.Append("maxprice", Maxprice.Value.ToString());
-			}
 
-			if(!string.IsNullOrEmpty(Name))
-			{
+			if (!String.IsNullOrEmpty(Name))
 				qsb.Append("name", Name.ToString().ToLowerInvariant());
-			}
 
-			if(OpenNow.HasValue)
-			{
+			if (OpenNow.HasValue)
 				qsb.Append("opennow", OpenNow.Value.ToString().ToLowerInvariant());
-			}
 
-			if((Types != null && Types.Any()))
-			{
+			if ((Types != null && Types.Any()))
 				qsb.Append("types", TypesToUri());
-			}
 
-			if(ZagatSelected)
-			{
+			if (ZagatSelected)
 				qsb.Append("zagatselected");
-			}
 
 			var url = "radarsearch/json?" + qsb.ToString();
+
 			return new Uri(url, UriKind.Relative);
 		}
 
@@ -103,9 +90,9 @@ namespace Google.Maps.Places
 		{
 			base.ValidateRequest();
 
-			if(Location == null) throw new InvalidOperationException("Location property is not set");
+			if (Location == null) throw new InvalidOperationException("Location property is not set");
 
-			if(!Radius.HasValue) throw new ArgumentException("Radius property is not set.");
+			if (!Radius.HasValue) throw new ArgumentException("Radius property is not set.");
 		}
 	}
 }

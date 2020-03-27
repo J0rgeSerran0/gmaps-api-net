@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Google.Maps
@@ -11,15 +9,16 @@ namespace Google.Maps
 		{
 			Points = new List<Location>();
 		}
+
 		public Path(IEnumerable<Location> locations)
 		{
 			Points = new List<Location>(locations);
 		}
+
 		public Path(params Location[] locations)
 			: this((IEnumerable<Location>)locations)
 		{
 		}
-
 
 		/// <summary>
 		/// specifies the thickness of the path in pixels. If no weight parameter is set, the path will appear in its default thickness (5 pixels).
@@ -54,6 +53,5 @@ namespace Google.Maps
 		/// http://code.google.com/apis/maps/documentation/utilities/polylinealgorithm.html
 		/// </remarks>
 		public bool? Encode { get; set; }
-
 	}
 }

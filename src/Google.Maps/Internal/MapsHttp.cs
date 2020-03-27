@@ -40,9 +40,7 @@ namespace Google.Maps.Internal
 			this.client = new HttpClient();
 
 			if (signingSvc != null && string.IsNullOrEmpty(signingSvc.ReferralUrl) == false)
-			{
 				client.DefaultRequestHeaders.Add("Referer", signingSvc.ReferralUrl);
-			}
 		}
 
 		public async Task<T> GetAsync<T>(Uri uri) where T : class
@@ -51,15 +49,10 @@ namespace Google.Maps.Internal
 
 			var json = await client.GetStringAsync(uri).ConfigureAwait(false);
 
-			var result = JsonConvert.DeserializeObject<T>(json, settings);
-
-			return result;
+			return JsonConvert.DeserializeObject<T>(json, settings);
 		}
 
-		public T Get<T>(Uri uri) where T : class
-		{
-			return GetAsync<T>(uri).GetAwaiter().GetResult();
-		}
+		public T Get<T>(Uri uri) where T : class => GetAsync<T>(uri).GetAwaiter().GetResult();
 
 		public async Task<Stream> GetStreamAsync(Uri uri)
 		{
@@ -68,10 +61,7 @@ namespace Google.Maps.Internal
 			return await client.GetStreamAsync(uri).ConfigureAwait(false);
 		}
 
-		public Stream GetStream(Uri uri)
-		{
-			return GetStreamAsync(uri).GetAwaiter().GetResult();
-		}
+		public Stream GetStream(Uri uri) => GetStreamAsync(uri).GetAwaiter().GetResult();
 
 		Uri SignUri(Uri uri)
 		{

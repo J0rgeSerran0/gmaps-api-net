@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Google.Maps.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Google.Maps.Internal;
 
 namespace Google.Maps.Places
 {
-	public class AutocompleteRequest : BaseRequest {
-		private readonly Dictionary<PlaceType, string> _specialTypeTranslations
-			= new Dictionary<PlaceType, string> {
+	public class AutocompleteRequest : BaseRequest
+	{
+		private readonly Dictionary<PlaceType, string> _specialTypeTranslations = new Dictionary<PlaceType, string>
+			{
 				{PlaceType.CitiesCollection, "(cities)"},
 				{PlaceType.RegionsCollection, "(regions)"},
 			};
@@ -77,60 +77,40 @@ namespace Google.Maps.Places
 
 			qsb.Append("input", Input.ToLowerInvariant());
 
-			if(Offset > 0)
-			{
+			if (Offset > 0)
 				qsb.Append("offset", Offset.ToString());
-			}
 
-			if(Location != null)
-			{
+			if (Location != null)
 				qsb.Append("location", Location.GetAsUrlParameter());
-			}
 
-			if(Radius.HasValue)
-			{
+			if (Radius.HasValue)
 				qsb.Append("radius", (Radius.Value.ToString().ToLowerInvariant()));
-			}
 
-			if(!string.IsNullOrEmpty(Language))
-			{
+			if (!String.IsNullOrEmpty(Language))
 				qsb.Append("language", Language.ToLowerInvariant());
-			}
 
-			if((Types != null && Types.Any()))
-			{
+			if ((Types != null && Types.Any()))
 				qsb.Append("types", TypesToUri());
-			}
 
-			if(!string.IsNullOrEmpty(Components))
-			{
+			if (!String.IsNullOrEmpty(Components))
 				qsb.Append(string.Format("components=country:{0}", Components.ToLowerInvariant()));
-			}
 
-			if(!string.IsNullOrEmpty(SessionToken))
-			{
+			if (!String.IsNullOrEmpty(SessionToken))
 				qsb.Append("sessiontoken", SessionToken);
-			}
 
 			var url = "autocomplete/json?" + qsb.ToString();
+
 			return new Uri(url, UriKind.Relative);
 		}
 
 		protected void ValidateRequest()
 		{
-			if(string.IsNullOrEmpty(this.Input)) throw new InvalidOperationException("Input property hasn't been set.");
+			if (String.IsNullOrEmpty(this.Input))
+				throw new InvalidOperationException("Input property hasn't been set.");
 		}
 
-		protected string TypesToUri()
-		{
-			return string.Join("|", Types.Select(TranslatePlaceType).ToArray<string>());
-		}
+		protected string TypesToUri() => String.Join("|", Types.Select(TranslatePlaceType).ToArray<string>());
 
-		private string TranslatePlaceType(PlaceType t)
-		{
-			return _specialTypeTranslations.ContainsKey(t)
-				? _specialTypeTranslations[t]
-				: t.ToString().ToSnakeCase();
-		}
+		private string TranslatePlaceType(PlaceType t) => _specialTypeTranslations.ContainsKey(t) ? _specialTypeTranslations[t] : t.ToString().ToSnakeCase();
 	}
 }

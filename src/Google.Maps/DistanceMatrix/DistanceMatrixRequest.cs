@@ -18,9 +18,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Google.Maps;
-using System.Text;
 using System.Linq;
+using System.Text;
 
 namespace Google.Maps.DistanceMatrix
 {
@@ -58,10 +57,9 @@ namespace Google.Maps.DistanceMatrix
 		private List<Location> _waypointsOrigin;
 		private List<Location> EnsureWaypointsOrigin()
 		{
-			if(_waypointsOrigin == null)
-			{
+			if (_waypointsOrigin == null)
 				_waypointsOrigin = new List<Location>();
-			}
+
 			return _waypointsOrigin;
 		}
 
@@ -71,10 +69,9 @@ namespace Google.Maps.DistanceMatrix
 		private List<Location> _waypointsDestination;
 		private List<Location> EnsureWaypointsDestination()
 		{
-			if(_waypointsDestination == null)
-			{
+			if (_waypointsDestination == null)
 				_waypointsDestination = new List<Location>();
-			}
+
 			return _waypointsDestination;
 		}
 
@@ -112,19 +109,13 @@ namespace Google.Maps.DistanceMatrix
 		/// Adds a waypoint location to the origin set
 		/// </summary>
 		/// <param name="destination"></param>
-		public void AddOrigin(Location destination)
-		{
-			WaypointsOrigin.Add(destination);
-		}
+		public void AddOrigin(Location destination) => WaypointsOrigin.Add(destination);
 
 		/// <summary>
 		/// Adds a waypoint location to the destination set
 		/// </summary>
 		/// <param name="destination"></param>
-		public void AddDestination(Location destination)
-		{
-			WaypointsDestination.Add(destination);
-		}
+		public void AddDestination(Location destination) => WaypointsDestination.Add(destination);
 
 		/// <summary>
 		/// Convert waypoint locations collection to a uri string
@@ -132,18 +123,18 @@ namespace Google.Maps.DistanceMatrix
 		/// <returns></returns>
 		internal string WaypointsToUri(IEnumerable<Location> waypointsList)
 		{
-			if(waypointsList == null) return string.Empty;
-			if(waypointsList.Count() == 0) return string.Empty;
+			if (waypointsList == null) return String.Empty;
+			if (waypointsList.Count() == 0) return String.Empty;
 
-			StringBuilder sb = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 
-			foreach(Location waypoint in waypointsList)
+			foreach (Location waypoint in waypointsList)
 			{
-				if(sb.Length > 0) sb.Append("|");
-				sb.Append(Uri.EscapeDataString(waypoint.ToString()));
+				if (stringBuilder.Length > 0) stringBuilder.Append("|");
+				stringBuilder.Append(Uri.EscapeDataString(waypoint.ToString()));
 			}
 
-			return sb.ToString();
+			return stringBuilder.ToString();
 		}
 
 		/// <summary>
@@ -165,5 +156,4 @@ namespace Google.Maps.DistanceMatrix
 			return new Uri(url, UriKind.Relative);
 		}
 	}
-
 }

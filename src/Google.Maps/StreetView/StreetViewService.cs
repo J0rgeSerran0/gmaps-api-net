@@ -14,11 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+using Google.Maps.Internal;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-
-using Google.Maps.Internal;
 
 namespace Google.Maps.StreetView
 {
@@ -94,6 +93,7 @@ namespace Google.Maps.StreetView
 
 			var result = outputStream.ToArray();
 			outputStream.Dispose();
+
 			return result;
 		}
 

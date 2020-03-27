@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Google.Maps
 {
@@ -20,11 +17,6 @@ namespace Google.Maps
 		/// Returns the Uri as a string.
 		/// </summary>
 		/// <returns></returns>
-		public string ToUriString()
-		{
-			return this.ToUri().ToString();
-		}
-
-
+		public string ToUriString() => this.ToUri().ToString();
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Google.Maps
 {
@@ -105,6 +104,7 @@ namespace Google.Maps
 		private string TryGetParameter(string key)
 		{
 			string route = null;
+
 			parameters.TryGetValue(key, out route);
 
 			return route;
@@ -117,27 +117,23 @@ namespace Google.Maps
 		/// <returns></returns>
 		public static implicit operator ComponentFilter(string components)
 		{
-			if(string.IsNullOrEmpty(components) || components.Trim().Length == 0)
-			{
+			if (String.IsNullOrEmpty(components) || components.Trim().Length == 0)
 				return null;
-			}
 
 			var componentFilter = new ComponentFilter();
 			var filters = components.Split('|');
 
-			foreach(var filter in filters)
+			foreach (var filter in filters)
 			{
 				var filterSplitted = filter.Split(':');
 
-				if(filterSplitted.Length != 2)
-				{
+				if (filterSplitted.Length != 2)
 					throw new ArgumentException("One of the filters is not well formated. Make sure that each filter is written \"component:value\" and are separated by \"|\". For exemple, \"country:ES|locality:Santa Cruz de Tenerife\"", "components");
-				}
 
 				var component = filterSplitted[0];
 				var value = filterSplitted[1];
 
-				switch(component.ToLowerInvariant())
+				switch (component.ToLowerInvariant())
 				{
 					case "route":
 						componentFilter.Route = value;

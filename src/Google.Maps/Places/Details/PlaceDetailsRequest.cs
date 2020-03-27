@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Google.Maps.Places.Details
 {
@@ -37,14 +35,14 @@ namespace Google.Maps.Places.Details
 		/// <see href="http://code.google.com/apis/maps/documentation/geocoding/#RegionCodes"/>
 		public string Extensions { get; set; }
 
-        /// <summary>
-        /// Use the fields parameter to specify a comma-separated list of place data types to return
-        /// </summary>
-        /// <remarks>
-        /// Optional.
-        /// </remarks>
-        /// <see href="https://developers.google.com/places/web-service/details#fields" />
-        public string[] Fields { get; set; }
+		/// <summary>
+		/// Use the fields parameter to specify a comma-separated list of place data types to return
+		/// </summary>
+		/// <remarks>
+		/// Optional.
+		/// </remarks>
+		/// <see href="https://developers.google.com/places/web-service/details#fields" />
+		public string[] Fields { get; set; }
 
 		/// <summary>
 		/// A random string which identifies an autocomplete session for billing purposes. Use this for Place Details requests that are called following an autocomplete request in the same user session.
@@ -68,33 +66,25 @@ namespace Google.Maps.Places.Details
 		{
 			var qsb = new Internal.QueryStringBuilder();
 
-			if(!String.IsNullOrEmpty(PlaceID))
-			{
+			if (!String.IsNullOrEmpty(PlaceID))
 				qsb.Append("placeid", PlaceID);
-			}
 #pragma warning disable CS0618 // Type or member is obsolete
-			else if(!String.IsNullOrEmpty(Reference))
-			{
+			else if (!String.IsNullOrEmpty(Reference))
 				qsb.Append("reference", Reference);
-			}
 #pragma warning restore CS0618 // Type or member is obsolete
 			else
-			{
 				throw new InvalidOperationException("Either PlaceID or Reference fields must be set.");
-			}
 
-			if(!String.IsNullOrEmpty(Extensions))
+			if (!String.IsNullOrEmpty(Extensions))
 				qsb.Append("extensions", Extensions);
 
-            if ((Fields != null && Fields.Any()))
-            {
-                qsb.Append("fields", string.Join("|", Fields));
-            }
+			if ((Fields != null && Fields.Any()))
+				qsb.Append("fields", string.Join("|", Fields));
 
-			if(!String.IsNullOrEmpty(Language))
+			if (!String.IsNullOrEmpty(Language))
 				qsb.Append("language", Language);
 
-			if(!string.IsNullOrEmpty(SessionToken))
+			if (!String.IsNullOrEmpty(SessionToken))
 				qsb.Append("sessiontoken", SessionToken);
 
 			var url = "json?" + qsb.ToString();

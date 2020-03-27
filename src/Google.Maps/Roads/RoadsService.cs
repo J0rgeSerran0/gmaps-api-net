@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Google.Maps.Internal;
+using System;
 using System.Threading.Tasks;
-
-using Google.Maps.Internal;
 
 namespace Google.Maps.Roads
 {

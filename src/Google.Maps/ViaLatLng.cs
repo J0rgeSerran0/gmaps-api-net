@@ -18,6 +18,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Globalization;
+using System.Text;
 
 namespace Google.Maps
 {
@@ -89,10 +90,7 @@ namespace Google.Maps
 		/// Gets the string representation of the latitude and longitude coordinates. Default format is "N6" for 6 decimal precision.
 		/// </summary>
 		/// <returns>Latitude and longitude coordinates.</returns>
-		public override string ToString()
-		{
-			return this.ToString("N6");
-		}
+		public override string ToString() => this.ToString("N6");
 
 		/// <summary>
 		/// Gets the string representation of the latitude and longitude coordinates. The format is applies to a System.Double, so any format applicable for System.Double will work.
@@ -101,25 +99,24 @@ namespace Google.Maps
 		/// <returns></returns>
 		public string ToString(string format)
 		{
-			System.Text.StringBuilder sb = new System.Text.StringBuilder(50); //default to 50 in the internal array.
-			sb.Append("via:");
-			sb.Append(this.Latitude.ToString(format, System.Globalization.CultureInfo.InvariantCulture));
-			sb.Append(",");
-			sb.Append(this.Longitude.ToString(format, System.Globalization.CultureInfo.InvariantCulture));
+			var stringBuilder = new StringBuilder(50); //default to 50 in the internal array.
 
-			return sb.ToString();
+			stringBuilder.Append("via:");
+			stringBuilder.Append(this.Latitude.ToString(format, CultureInfo.InvariantCulture));
+			stringBuilder.Append(",");
+			stringBuilder.Append(this.Longitude.ToString(format, CultureInfo.InvariantCulture));
+
+			return stringBuilder.ToString();
 		}
 
 		/// <summary>
 		/// Gets the current instance as a URL encoded value.
 		/// </summary>
 		/// <returns></returns>
-		public override string GetAsUrlParameter()
-		{
+		public override string GetAsUrlParameter() =>
 			//we're not returning crazy characters so just return the string.
 			//prevents the comma from being converted to %2c, expanding the single character to three characters.
-			return this.ToString("R");
-		}
+			this.ToString("R");
 
 		/// <summary>
 		/// Parses a ViaLatLng from a set of latitude/longitude coordinates
@@ -128,13 +125,13 @@ namespace Google.Maps
 		/// <returns></returns>
 		public static ViaLatLng Parse(string value)
 		{
-			if(value == null) throw new ArgumentNullException("value");
+			if (value == null) throw new ArgumentNullException("value");
 
 			try
 			{
 				string[] parts = value.Split(',');
 
-				if(parts.Length != 2) throw new FormatException("Missing data for points.");
+				if (parts.Length != 2) throw new FormatException("Missing data for points.");
 
 				double latitude = double.Parse(parts[0].Trim(), CultureInfo.InvariantCulture);
 				double longitude = double.Parse(parts[1].Trim(), CultureInfo.InvariantCulture);
@@ -143,28 +140,21 @@ namespace Google.Maps
 
 				return vialatlng;
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				throw new FormatException("Failed to parse ViaLatLng.", ex);
 			}
 		}
 
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as ViaLatLng);
-		}
+		public override bool Equals(object obj) => Equals(obj as ViaLatLng);
 
 		public bool Equals(ViaLatLng other)
 		{
-			if(other == null)
-			{
+			if (other == null)
 				return false;
-			}
 
-			if(other.Latitude == this.Latitude && other.Longitude == this.Longitude)
-			{
+			if (other.Latitude == this.Latitude && other.Longitude == this.Longitude)
 				return true;
-			}
 
 			return false;
 		}
@@ -172,8 +162,10 @@ namespace Google.Maps
 		public override int GetHashCode()
 		{
 			int hash = 13;
+
 			hash += (hash * 7) + this.Latitude.GetHashCode();
 			hash += (hash * 7) + this.Longitude.GetHashCode();
+
 			return hash;
 		}
 	}

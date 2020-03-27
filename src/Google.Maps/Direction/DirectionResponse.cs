@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Newtonsoft.Json;
-using Google.Maps.Common;
+﻿using Newtonsoft.Json;
 
 namespace Google.Maps.Direction
 {
 	[JsonObject(MemberSerialization.OptIn)]
 	public class DirectionResponse : IServiceResponse
 	{
-
 		[JsonProperty("status")]
 		public ServiceResponseStatus Status { get; set; }
 
@@ -26,6 +20,4 @@ namespace Google.Maps.Direction
 		[JsonProperty("error_message")]
 		public string ErrorMessage { get; set; }
 	}
-
-
 }

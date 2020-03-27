@@ -50,50 +50,32 @@ namespace Google.Maps.Places
 
 			qsb.Append("query", Uri.EscapeDataString(Query.ToLowerInvariant()));
 
-			if(Location != null)
-			{
+			if (Location != null)
 				qsb.Append("location", Location.GetAsUrlParameter());
-			}
 
-			if(Radius.HasValue)
-			{
+			if (Radius.HasValue)
 				qsb.Append("radius", Radius.Value.ToString());
-			}
 
-			if(!string.IsNullOrEmpty(Language))
-			{
+			if (!String.IsNullOrEmpty(Language))
 				qsb.Append("language", Language.ToLowerInvariant());
-			}
 
-			if(Minprice.HasValue)
-			{
+			if (Minprice.HasValue)
 				qsb.Append("minprice", Minprice.Value.ToString());
-			}
 
-			if(Maxprice.HasValue)
-			{
+			if (Maxprice.HasValue)
 				qsb.Append("maxprice", Maxprice.Value.ToString());
-			}
 
-			if(OpenNow.HasValue)
-			{
+			if (OpenNow.HasValue)
 				qsb.Append("opennow", OpenNow.Value.ToString().ToLowerInvariant());
-			}
 
-			if(!string.IsNullOrEmpty(PageToken))
-			{
+			if (!String.IsNullOrEmpty(PageToken))
 				qsb.Append("pagetoken", PageToken);
-			}
 
-			if((Types != null && Types.Any()))
-			{
+			if ((Types != null && Types.Any()))
 				qsb.Append("types", TypesToUri());
-			}
 
-			if(ZagatSelected)
-			{
+			if (ZagatSelected)
 				qsb.Append("zagatselected");
-			}
 
 			var url = "textsearch/json?" + qsb.ToString();
 
@@ -104,7 +86,7 @@ namespace Google.Maps.Places
 		{
 			base.ValidateRequest();
 
-			if(string.IsNullOrEmpty(Query)) throw new InvalidOperationException("Query property is not set");
+			if (String.IsNullOrEmpty(Query)) throw new InvalidOperationException("Query property is not set");
 		}
 	}
 }

@@ -31,10 +31,7 @@ namespace Google.Maps.Roads
 			TestingApiKey = SigningHelper.GetApiKey();
 		}
 
-		private RoadsService CreateService()
-		{
-			return new RoadsService(TestingApiKey);
-		}
+		private RoadsService CreateService() => new RoadsService(TestingApiKey);
 
 		[Test]
 		[Category("ValueTesting")]
@@ -66,9 +63,7 @@ namespace Google.Maps.Roads
 			var response = CreateService().GetResponse(req);
 
 			if(response.Status == ServiceResponseStatus.OverQueryLimit)
-			{
 				Assert.Ignore("OverQueryLimit");
-			}
 
 			Assert.AreEqual(4, response.SnappedPoints.Length);
 		}

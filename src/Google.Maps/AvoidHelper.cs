@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Google.Maps
@@ -9,13 +7,13 @@ namespace Google.Maps
 	{
 		internal static string MakeAvoidString(Avoid avoid)
 		{
-			var sb = new StringBuilder();
-			foreach(Avoid avoidFlag in Enum.GetValues(typeof(Avoid)))
-			{
-				if(avoidFlag != 0 && ((avoid & avoidFlag) == avoidFlag))
-					sb.Append((sb.Length > 0 ? "|" : "") + avoidFlag.ToString());
-			}
-			return sb.ToString();
+			var stringBuilder = new StringBuilder();
+
+			foreach (Avoid avoidFlag in Enum.GetValues(typeof(Avoid)))
+				if (avoidFlag != 0 && ((avoid & avoidFlag) == avoidFlag))
+					stringBuilder.Append((stringBuilder.Length > 0 ? "|" : "") + avoidFlag.ToString());
+
+			return stringBuilder.ToString();
 		}
 	}
 }

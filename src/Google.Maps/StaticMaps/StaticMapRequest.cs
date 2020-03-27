@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-using System;
-using System.Linq;
-using System.Collections.Generic;
-
 using Google.Maps.Internal;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Google.Maps.StaticMaps
 {
@@ -64,10 +64,9 @@ namespace Google.Maps.StaticMaps
 			get { return _zoom; }
 			set
 			{
-				if(value != null)
-				{
-					if(value < Constants.ZOOM_LEVEL_MIN) throw new ArgumentOutOfRangeException(string.Format("value cannot be less than {0}.", Constants.ZOOM_LEVEL_MIN));
-				}
+				if (value != null)
+					if (value < Constants.ZOOM_LEVEL_MIN) throw new ArgumentOutOfRangeException(string.Format("value cannot be less than {0}.", Constants.ZOOM_LEVEL_MIN));
+
 				_zoom = value;
 			}
 		}
@@ -87,10 +86,11 @@ namespace Google.Maps.StaticMaps
 			get { return _size; }
 			set
 			{
-				if(value.Width < Constants.SIZE_WIDTH_MIN) throw new ArgumentOutOfRangeException(string.Format("value.Width cannot be less than {0}.", Constants.SIZE_WIDTH_MIN));
-				if(value.Height < Constants.SIZE_HEIGHT_MIN) throw new ArgumentOutOfRangeException(string.Format("value.Height cannot be less than {0}.", Constants.SIZE_HEIGHT_MIN));
-				if(value.Width > Constants.SIZE_WIDTH_MAX) throw new ArgumentOutOfRangeException(string.Format("value.Width cannot be greater than {0}.", Constants.SIZE_WIDTH_MAX));
-				if(value.Height > Constants.SIZE_HEIGHT_MAX) throw new ArgumentOutOfRangeException(string.Format("value.Height cannot be greater than {0}.", Constants.SIZE_HEIGHT_MAX));
+				if (value.Width < Constants.SIZE_WIDTH_MIN) throw new ArgumentOutOfRangeException(string.Format("value.Width cannot be less than {0}.", Constants.SIZE_WIDTH_MIN));
+				if (value.Height < Constants.SIZE_HEIGHT_MIN) throw new ArgumentOutOfRangeException(string.Format("value.Height cannot be less than {0}.", Constants.SIZE_HEIGHT_MIN));
+				if (value.Width > Constants.SIZE_WIDTH_MAX) throw new ArgumentOutOfRangeException(string.Format("value.Width cannot be greater than {0}.", Constants.SIZE_WIDTH_MAX));
+				if (value.Height > Constants.SIZE_HEIGHT_MAX) throw new ArgumentOutOfRangeException(string.Format("value.Height cannot be greater than {0}.", Constants.SIZE_HEIGHT_MAX));
+
 				this._size = value;
 			}
 		}
@@ -108,10 +108,8 @@ namespace Google.Maps.StaticMaps
 			get { return _scale; }
 			set
 			{
-				if(value != null)
-				{
+				if (value != null)
 					Constants.IsExpectedScaleValue(value.Value, true);
-				}
 
 				_scale = value;
 			}
@@ -203,7 +201,7 @@ namespace Google.Maps.StaticMaps
 		public override Uri ToUri()
 		{
 			string formatStr = null;
-			switch(this.Format)
+			switch (this.Format)
 			{
 				case GMapsImageFormats.Unspecified: break;
 				case GMapsImageFormats.JPGbaseline: formatStr = "jpg-baseline"; break;
@@ -211,7 +209,7 @@ namespace Google.Maps.StaticMaps
 			}
 
 			string maptypeStr = null;
-			switch(this.MapType)
+			switch (this.MapType)
 			{
 				case MapTypes.Unspecified: break;
 				default:
@@ -220,11 +218,11 @@ namespace Google.Maps.StaticMaps
 			}
 
 			string zoomStr = null;
-			if(this.Zoom != null)
+			if (this.Zoom != null)
 				zoomStr = this.Zoom.ToString();
 
 			string centerStr = null;
-			if(this.Center != null)
+			if (this.Center != null)
 				centerStr = this.Center.GetAsUrlParameter();
 
 			QueryStringBuilder qs = new QueryStringBuilder()
@@ -254,10 +252,11 @@ namespace Google.Maps.StaticMaps
 		/// <returns></returns>
 		public string ToUriSigned(GoogleSigned signingInfo = null)
 		{
-			if(signingInfo == null)
+			if (signingInfo == null)
 				signingInfo = GoogleSigned.SigningInstance;
 
 			Uri reqUri = this.ToUri();
+
 			return signingInfo.GetSignedUri(reqUri);
 		}
 
@@ -267,71 +266,78 @@ namespace Google.Maps.StaticMaps
 		/// <returns></returns>
 		private string GetPathsStr()
 		{
-			if(this.Paths == null || this.Paths.Count == 0) return null;
+			if (this.Paths == null || this.Paths.Count == 0) return null;
 
-			string[] pathParam = new string[this.Paths.Count];
-			int pathParamIndex = 0;
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
+			var pathParam = new string[this.Paths.Count];
+			var pathParamIndex = 0;
+			var stringBuilder = new StringBuilder();
 
-			foreach(Path currentPath in this.Paths)
+			foreach (Path currentPath in this.Paths)
 			{
-				sb.Length = 0;
+				stringBuilder.Length = 0;
 
-				if(!currentPath.Color.IsUndefined)
-				{
-					sb.Append("color:").Append(currentPath.Color.To32BitColorString());
-				}
+				if (!currentPath.Color.IsUndefined)
+					stringBuilder.Append("color:").Append(currentPath.Color.To32BitColorString());
 
-				if(!currentPath.FillColor.IsUndefined)
-				{
-					if(sb.Length > 0) sb.Append(Constants.PIPE_URL_ENCODED);
-					sb.Append("fillcolor:").Append(currentPath.FillColor.To32BitColorString());
-				}
+				if (!currentPath.FillColor.IsUndefined)
+					if (stringBuilder.Length > 0) stringBuilder.Append(Constants.PIPE_URL_ENCODED);
+				stringBuilder.Append("fillcolor:").Append(currentPath.FillColor.To32BitColorString());
 
-				if(currentPath.Encode.GetValueOrDefault() == true)
+				if (currentPath.Encode.GetValueOrDefault() == true)
 				{
 					string encodedValue = GetPathEncoded(currentPath);
 
-					if(sb.Length > 0) sb.Append(Constants.PIPE_URL_ENCODED);
-					sb.Append(Constants.PATH_ENCODED_PREFIX).Append(encodedValue);
+					if (stringBuilder.Length > 0) stringBuilder.Append(Constants.PIPE_URL_ENCODED);
+
+					stringBuilder.Append(Constants.PATH_ENCODED_PREFIX).Append(encodedValue);
 				}
 				else
 				{
-					if(currentPath.Encode == null && currentPath.Points.Count > 10)
+					if (currentPath.Encode == null && currentPath.Points.Count > 10)
 					{
 						IEnumerable<LatLng> positionCollection;
-						if(ConvertUtil.TryCast<Location, LatLng>(currentPath.Points, out positionCollection) == true)
+
+						if (ConvertUtil.TryCast<Location, LatLng>(currentPath.Points, out positionCollection) == true)
 						{
 							string encodedValue = PolylineEncoder.EncodeCoordinates(positionCollection);
-							if(sb.Length > 0) sb.Append(Constants.PIPE_URL_ENCODED);
-							sb.Append(Constants.PATH_ENCODED_PREFIX).Append(encodedValue);
+
+							if (stringBuilder.Length > 0) stringBuilder.Append(Constants.PIPE_URL_ENCODED);
+
+							stringBuilder.Append(Constants.PATH_ENCODED_PREFIX).Append(encodedValue);
 						}
 
 					}
 
-					foreach(Location loc in currentPath.Points)
+					foreach (Location loc in currentPath.Points)
 					{
-						if(sb.Length > 0) sb.Append(Constants.PIPE_URL_ENCODED);
-						sb.Append(loc.GetAsUrlParameter());
+						if (stringBuilder.Length > 0) stringBuilder.Append(Constants.PIPE_URL_ENCODED);
+
+						stringBuilder.Append(loc.GetAsUrlParameter());
 					}
 
 
 				}
 
-				pathParam[pathParamIndex++] = "path=" + sb.ToString();
+				pathParam[pathParamIndex++] = "path=" + stringBuilder.ToString();
 			}
 
-			return string.Join("&", pathParam);
+			return String.Join("&", pathParam);
 		}
 
 		private static string GetPathEncoded(Path currentPath)
 		{
 			IEnumerable<LatLng> latlngPoints;
-			try { latlngPoints = currentPath.Points.Cast<LatLng>().ToList(); }
-			catch(InvalidCastException ex) { throw new InvalidOperationException("Encountered a point specified as a location.  Encoding only supports all points in LatLng types.", ex); }
 
-			string encodedValue = PolylineEncoder.EncodeCoordinates(latlngPoints);
-			return encodedValue;
+			try
+			{
+				latlngPoints = currentPath.Points.Cast<LatLng>().ToList();
+			}
+			catch (InvalidCastException ex)
+			{
+				throw new InvalidOperationException("Encountered a point specified as a location.  Encoding only supports all points in LatLng types.", ex);
+			}
+
+			return PolylineEncoder.EncodeCoordinates(latlngPoints);
 		}
 
 		/// <summary>
@@ -340,15 +346,17 @@ namespace Google.Maps.StaticMaps
 		/// <returns></returns>
 		private string GetVisibleStr()
 		{
-			if(this.Visible.Count == 0) return null;
+			if (this.Visible.Count == 0) return null;
 
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
-			foreach(Location loc in this.Visible)
+			var stringBuilder = new StringBuilder();
+
+			foreach (Location loc in this.Visible)
 			{
-				if(sb.Length > 0) sb.Append(Constants.PIPE_URL_ENCODED);
-				sb.Append(loc.ToString());
+				if (stringBuilder.Length > 0) stringBuilder.Append(Constants.PIPE_URL_ENCODED);
+				stringBuilder.Append(loc.ToString());
 			}
-			return sb.ToString();
+
+			return stringBuilder.ToString();
 		}
 
 		/// <summary>
@@ -357,71 +365,71 @@ namespace Google.Maps.StaticMaps
 		/// <returns></returns>
 		private string GetMarkersStr()
 		{
-			if(this.Markers.Count == 0) return null;
+			if (this.Markers.Count == 0) return null;
 
-			System.Text.StringBuilder sb = new System.Text.StringBuilder(200);
+			var stringBuilder = new StringBuilder(200);
 
 			string[] markerStrings = new string[this.Markers.Count];
 			int markerStringsIndex = 0;
 
-			foreach(MapMarkers current in this.Markers)
+			foreach (MapMarkers current in this.Markers)
 			{
 				//start with an empty stringbuilder.
-				sb.Remove(0, sb.Length);
+				stringBuilder.Remove(0, stringBuilder.Length);
 
 				//output the size parameter, if it was specified.
-				if(current.MarkerSize != MarkerSizes.Unspecified)
+				if (current.MarkerSize != MarkerSizes.Unspecified)
 				{
-					if(sb.Length > 0) sb.Append(Constants.PIPE_URL_ENCODED);
-					sb.AppendFormat("size:{0}", current.MarkerSize.ToString().ToLowerInvariant());
+					if (stringBuilder.Length > 0) stringBuilder.Append(Constants.PIPE_URL_ENCODED);
+					stringBuilder.AppendFormat("size:{0}", current.MarkerSize.ToString().ToLowerInvariant());
 				}
 
 				//check for a color specified for the markers and add that style attribute if so
-				if(!current.Color.IsUndefined)
+				if (!current.Color.IsUndefined)
 				{
-					if(sb.Length > 0) sb.Append(Constants.PIPE_URL_ENCODED);
+					if (stringBuilder.Length > 0) stringBuilder.Append(Constants.PIPE_URL_ENCODED);
 
-					sb.AppendFormat(current.Color.To24BitColorString());
+					stringBuilder.AppendFormat(current.Color.To24BitColorString());
 				}
 
 				// add a label, but if the MarkerSize is MarkerSizes.Tiny or Small then you can't have a label.
-				if (string.IsNullOrEmpty(current.Label) == false && !(current.MarkerSize == MarkerSizes.Tiny || current.MarkerSize == MarkerSizes.Small))
+				if (String.IsNullOrEmpty(current.Label) == false && !(current.MarkerSize == MarkerSizes.Tiny || current.MarkerSize == MarkerSizes.Small))
 				{
-					if(sb.Length > 0) sb.Append(Constants.PIPE_URL_ENCODED);
-					sb.AppendFormat("label:{0}", current.Label);
+					if (stringBuilder.Length > 0) stringBuilder.Append(Constants.PIPE_URL_ENCODED);
+					stringBuilder.AppendFormat("label:{0}", current.Label);
 				}
 
 				//add a custom icon param
-				if(string.IsNullOrEmpty(current.IconUrl) == false)
+				if (String.IsNullOrEmpty(current.IconUrl) == false)
 				{
-					if(sb.Length > 0) sb.Append(Constants.PIPE_URL_ENCODED);
-					sb.AppendFormat("icon:{0}", Uri.EscapeDataString(current.IconUrl));
+					if (stringBuilder.Length > 0) stringBuilder.Append(Constants.PIPE_URL_ENCODED);
+					stringBuilder.AppendFormat("icon:{0}", Uri.EscapeDataString(current.IconUrl));
 
-					if(current.Shadow != null)
+					if (current.Shadow != null)
 					{
-						if(sb.Length > 0) sb.Append(Constants.PIPE_URL_ENCODED);
-						sb.AppendFormat("shadow:{0}", (current.Shadow == true ? "true" : "false"));
+						if (stringBuilder.Length > 0) stringBuilder.Append(Constants.PIPE_URL_ENCODED);
+						stringBuilder.AppendFormat("shadow:{0}", (current.Shadow == true ? "true" : "false"));
 					}
 				}
 
 				//add a custom scale param
-				if(current.Scale != null)
+				if (current.Scale != null)
 				{
-					if(sb.Length > 0) sb.Append(Constants.PIPE_URL_ENCODED);
-					sb.AppendFormat("scale:{0}", current.Scale.Value);
+					if (stringBuilder.Length > 0) stringBuilder.Append(Constants.PIPE_URL_ENCODED);
+					stringBuilder.AppendFormat("scale:{0}", current.Scale.Value);
 				}
 
 				//iterate the locations
-				foreach(Location loc in current.Locations)
+				foreach (Location loc in current.Locations)
 				{
-					if(sb.Length > 0) sb.Append(Constants.PIPE_URL_ENCODED);
-					sb.Append(loc.GetAsUrlParameter());
+					if (stringBuilder.Length > 0) stringBuilder.Append(Constants.PIPE_URL_ENCODED);
+					stringBuilder.Append(loc.GetAsUrlParameter());
 				}
 
-				markerStrings[markerStringsIndex++] = "markers=" + sb.ToString();
+				markerStrings[markerStringsIndex++] = "markers=" + stringBuilder.ToString();
 			}
 
-			return string.Join("&", markerStrings);
+			return String.Join("&", markerStrings);
 		}
 	}
 }

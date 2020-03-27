@@ -1,8 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Google.Maps.Places
 {
@@ -70,21 +66,5 @@ namespace Google.Maps.Places
 		/// </summary>
 		[JsonProperty("matched_substrings")]
 		public SubstringMatch[] MatchedSubstrings { get; set; }
-	}
-
-	public class AutocompleteTerm
-	{
-		[JsonProperty("value")]
-		public string Value { get; set; }
-		[JsonProperty("offset")]
-		public int Offset { get; set; }
-	}
-
-	public class SubstringMatch
-	{
-		[JsonProperty("length")]
-		public int Length { get; set; }
-		[JsonProperty("offset")]
-		public int Offset { get; set; }
 	}
 }

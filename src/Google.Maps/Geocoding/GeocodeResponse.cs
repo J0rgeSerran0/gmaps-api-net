@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-using Google.Maps.Common;
 using Newtonsoft.Json;
-using System;
 
 namespace Google.Maps.Geocoding
 {
@@ -39,6 +37,5 @@ namespace Google.Maps.Geocoding
 
 		[JsonProperty("results")]
 		public Result[] Results { get; set; }
-
 	}
 }

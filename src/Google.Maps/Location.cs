@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Google.Maps
 {
@@ -19,7 +17,7 @@ namespace Google.Maps
 		/// <param name="value"></param>
 		public Location(string value)
 		{
-			if(value != null) this._value = value.Trim();
+			if (value != null) this._value = value.Trim();
 		}
 
 		private string _value;
@@ -28,28 +26,19 @@ namespace Google.Maps
 		/// Returns the string representation of the current instance.
 		/// </summary>
 		/// <returns></returns>
-		public override string ToString()
-		{
-			return _value;
-		}
+		public override string ToString() => _value;
 
 		/// <summary>
 		/// Gets the current instance as a URL encoded value.
 		/// </summary>
 		/// <returns></returns>
-		public virtual string GetAsUrlParameter()
-		{
-			return System.Uri.EscapeDataString(this.ToString());
-		}
+		public virtual string GetAsUrlParameter() => Uri.EscapeDataString(this.ToString());
 
 		/// <summary>
 		/// implicitly converts a System.String to Google.Maps.Location
 		/// </summary>
 		/// <param name="value"></param>
 		/// <returns></returns>
-		public static implicit operator Location(string value)
-		{
-			return new Location(value);
-		}
+		public static implicit operator Location(string value) => new Location(value);
 	}
 }

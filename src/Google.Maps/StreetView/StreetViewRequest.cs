@@ -15,11 +15,8 @@
  * limitations under the License.
  */
 
-using System;
-using System.Linq;
-using System.Collections.Generic;
-
 using Google.Maps.Internal;
+using System;
 using System.ComponentModel;
 
 namespace Google.Maps.StreetView
@@ -47,10 +44,11 @@ namespace Google.Maps.StreetView
 			get { return _size; }
 			set
 			{
-				if(value.Width < Constants.SIZE_WIDTH_MIN) throw new ArgumentOutOfRangeException(string.Format("value.Width cannot be less than {0}.", Constants.SIZE_WIDTH_MIN));
-				if(value.Height < Constants.SIZE_HEIGHT_MIN) throw new ArgumentOutOfRangeException(string.Format("value.Height cannot be less than {0}.", Constants.SIZE_HEIGHT_MIN));
-				if(value.Width > Constants.SIZE_WIDTH_MAX) throw new ArgumentOutOfRangeException(string.Format("value.Width cannot be greater than {0}.", Constants.SIZE_WIDTH_MAX));
-				if(value.Height > Constants.SIZE_HEIGHT_MAX) throw new ArgumentOutOfRangeException(string.Format("value.Height cannot be greater than {0}.", Constants.SIZE_HEIGHT_MAX));
+				if (value.Width < Constants.SIZE_WIDTH_MIN) throw new ArgumentOutOfRangeException(string.Format("value.Width cannot be less than {0}.", Constants.SIZE_WIDTH_MIN));
+				if (value.Height < Constants.SIZE_HEIGHT_MIN) throw new ArgumentOutOfRangeException(string.Format("value.Height cannot be less than {0}.", Constants.SIZE_HEIGHT_MIN));
+				if (value.Width > Constants.SIZE_WIDTH_MAX) throw new ArgumentOutOfRangeException(string.Format("value.Width cannot be greater than {0}.", Constants.SIZE_WIDTH_MAX));
+				if (value.Height > Constants.SIZE_HEIGHT_MAX) throw new ArgumentOutOfRangeException(string.Format("value.Height cannot be greater than {0}.", Constants.SIZE_HEIGHT_MAX));
+
 				this._size = value;
 			}
 		}
@@ -80,7 +78,7 @@ namespace Google.Maps.StreetView
 			}
 			set
 			{
-				if(value != null)
+				if (value != null)
 				{
 					short headingValue = value.Value;
 					Constants.CheckHeadingRange(value.Value, "value");
@@ -129,7 +127,7 @@ namespace Google.Maps.StreetView
 		/// <returns></returns>
 		public override Uri ToUri()
 		{
-			QueryStringBuilder qs = new QueryStringBuilder();
+			var queryStringBuilder = new QueryStringBuilder();
 
 			//string zoomStr = null;
 			//if(this.Zoom != null)
@@ -140,35 +138,24 @@ namespace Google.Maps.StreetView
 			//	qs.Append("center", centerStr);
 			//}
 
-			if(this.Location != null)
-			{
-				qs.Append("location", this.Location.GetAsUrlParameter());
-			}
-			else if(string.IsNullOrEmpty(this.PanoramaId) == false)
-			{
-				qs.Append("pano", this.PanoramaId);
-			}
+			if (this.Location != null)
+				queryStringBuilder.Append("location", this.Location.GetAsUrlParameter());
+			else if (string.IsNullOrEmpty(this.PanoramaId) == false)
+				queryStringBuilder.Append("pano", this.PanoramaId);
 			else
-			{
 				throw new InvalidOperationException("Either Location or PanoramaId property are required.");
-			}
 
-			WriteBitmapOutputParameters(qs);
+			WriteBitmapOutputParameters(queryStringBuilder);
 
 			var InvariantCulture = System.Globalization.CultureInfo.InvariantCulture;
 
-			if(this.Pitch != 0)
-			{
-				qs.Append("pitch", Pitch.ToString(InvariantCulture));
-			}
+			if (this.Pitch != 0)
+				queryStringBuilder.Append("pitch", Pitch.ToString(InvariantCulture));
 
-			if(this.Heading != null && this.Heading.GetValueOrDefault(0) != 0)
-			{
-				qs.Append("heading", Heading.Value.ToString(InvariantCulture));
-			}
+			if (this.Heading != null && this.Heading.GetValueOrDefault(0) != 0)
+				queryStringBuilder.Append("heading", Heading.Value.ToString(InvariantCulture));
 
-
-			var url = "streetview?" + qs.ToString();
+			var url = "streetview?" + queryStringBuilder.ToString();
 
 			return new Uri(StreetViewService.HttpsUri, new Uri(url, UriKind.Relative));
 		}
@@ -176,7 +163,8 @@ namespace Google.Maps.StreetView
 		private void WriteBitmapOutputParameters(QueryStringBuilder qs)
 		{
 			string formatStr = null;
-			switch(this.Format)
+
+			switch (this.Format)
 			{
 				case GMapsImageFormats.Unspecified: break;
 				case GMapsImageFormats.JPGbaseline: formatStr = "jpg-baseline"; break;
@@ -189,6 +177,5 @@ namespace Google.Maps.StreetView
 
 			//qs.Append("scale", Scale == null ? (string)null : Scale.Value.ToString())
 		}
-
 	}
 }

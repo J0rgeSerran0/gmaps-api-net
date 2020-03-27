@@ -17,7 +17,7 @@
 
 using System;
 using System.Globalization;
-
+using System.Text;
 using Newtonsoft.Json;
 
 namespace Google.Maps
@@ -87,10 +87,7 @@ namespace Google.Maps
 		/// Gets the string representation of the latitude and longitude coordinates.  Default format is "N6" for 6 decimal precision.
 		/// </summary>
 		/// <returns></returns>
-		public override string ToString()
-		{
-			return this.ToString("N6");
-		}
+		public override string ToString() => this.ToString("N6");
 
 		/// <summary>
 		/// Gets the string representation of the latitude and longitude coordinates.  The format is applies to a System.Double, so any format applicable for System.Double will work.
@@ -99,25 +96,24 @@ namespace Google.Maps
 		/// <returns></returns>
 		public string ToString(string format)
 		{
-			System.Text.StringBuilder sb = new System.Text.StringBuilder(50); //default to 50 in the internal array.
-			sb.Append(this.Latitude.ToString(format, System.Globalization.CultureInfo.InvariantCulture));
-			sb.Append(",");
-			sb.Append(this.Longitude.ToString(format, System.Globalization.CultureInfo.InvariantCulture));
+			var stringBuilder = new StringBuilder(50); //default to 50 in the internal array.
 
-			return sb.ToString();
+			stringBuilder.Append(this.Latitude.ToString(format, System.Globalization.CultureInfo.InvariantCulture));
+			stringBuilder.Append(",");
+			stringBuilder.Append(this.Longitude.ToString(format, System.Globalization.CultureInfo.InvariantCulture));
+
+			return stringBuilder.ToString();
 		}
 
 		/// <summary>
 		/// Gets the current instance as a URL encoded value.
 		/// </summary>
 		/// <returns></returns>
-		public override string GetAsUrlParameter()
-		{
-			// This style of formatting will give us 7 decimal places of precision,
-			// but if anything can be expressed with less, then it will be.
-			// IE: 0.5 rather than 0.5000000
-			return this.ToString("0.#######");
-		}
+		public override string GetAsUrlParameter() => this.ToString("0.#######");
+		// This style of formatting will give us 7 decimal places of precision,
+		// but if anything can be expressed with less, then it will be.
+		// IE: 0.5 rather than 0.5000000
+
 
 		/// <summary>
 		/// Parses a LatLng from a set of latitude/longitude coordinates
@@ -158,6 +154,7 @@ namespace Google.Maps
 		public static bool TryParse(string value, out LatLng result)
 		{
 			result = null;
+
 			if(value == null) return false;
 
 			try
@@ -172,19 +169,14 @@ namespace Google.Maps
 			return true;
 		}
 
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as LatLng);
-		}
+		public override bool Equals(object obj) => Equals(obj as LatLng);
 
 		public bool Equals(LatLng other)
 		{
 			if(other == null) return false;
 
 			if(other.Latitude == this.Latitude && other.Longitude == this.Longitude)
-			{
 				return true;
-			}
 
 			//else
 			return false;
@@ -193,8 +185,10 @@ namespace Google.Maps
 		public override int GetHashCode()
 		{
 			int hash = 13;
+
 			hash += (hash * 7) + this.Latitude.GetHashCode();
 			hash += (hash * 7) + this.Longitude.GetHashCode();
+
 			return hash;
 		}
 	}

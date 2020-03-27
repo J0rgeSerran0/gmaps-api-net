@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Google.Maps.Geocoding;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
-using Google.Maps.Geocoding;
 
 namespace SearchAddressMap
 {
@@ -11,13 +11,13 @@ namespace SearchAddressMap
 		{
 			var nodes = new List<TreeViewItem>();
 
-			foreach(var result in results)
+			foreach (var result in results)
 			{
 				var node = new TreeViewItem();
 				node.Header = "(" + result.Types.FirstOrDefault() + ") " + result.FormattedAddress;
 				node.Tag = result.Geometry.Location;
 
-				foreach(var component in result.AddressComponents)
+				foreach (var component in result.AddressComponents)
 				{
 					node.Items.Add(new TreeViewItem
 					{

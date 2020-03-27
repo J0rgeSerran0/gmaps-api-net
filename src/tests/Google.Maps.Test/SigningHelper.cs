@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Google.Maps
 {
@@ -22,7 +18,7 @@ namespace Google.Maps
 			//for nunit test, might need to use the NUnit Test Settings file
 
 			//if env["GOOGLE_API_KEY"] is empty, use a default key
-			if(string.IsNullOrEmpty(S_ApiKey))
+			if (String.IsNullOrEmpty(S_ApiKey))
 			{
 				//Log.Info("Setting ApiKey to a default key.");
 
@@ -38,14 +34,8 @@ namespace Google.Maps
 		/// <summary>Holds the ApiKey used for testing</summary>
 		private static string S_ApiKey;
 
-		public static GoogleSigned GetPrivateKey()
-		{
-			throw new NotImplementedException();
-		}
+		public static GoogleSigned GetPrivateKey() => throw new NotImplementedException();
 
-		public static GoogleSigned GetApiKey()
-		{
-			return new GoogleSigned(S_ApiKey);
-		}
+		public static GoogleSigned GetApiKey() => new GoogleSigned(S_ApiKey);
 	}
 }

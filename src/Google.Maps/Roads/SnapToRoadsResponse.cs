@@ -1,5 +1,4 @@
-﻿using Google.Maps.Common;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Google.Maps.Roads
 {
@@ -17,7 +16,7 @@ namespace Google.Maps.Roads
 		/// </summary>
 		[JsonProperty("error_message")]
 		public string ErrorMessage { get; set; }
-	
+
 		[JsonProperty("snappedPoints")]
 		public SnappedPoint[] SnappedPoints { get; set; }
 	}

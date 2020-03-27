@@ -15,10 +15,9 @@
  * limitations under the License.
  */
 
+using Google.Maps.Internal;
 using System;
 using System.Threading.Tasks;
-
-using Google.Maps.Internal;
 
 namespace Google.Maps.Geocoding
 {

@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-using System;
-
 using Google.Maps.Shared;
+using System;
 
 namespace Google.Maps.Geocoding
 {
@@ -85,21 +84,15 @@ namespace Google.Maps.Geocoding
 
 			var qsb = new Internal.QueryStringBuilder();
 
-			if(Address != null)
+			if (Address != null)
 			{
-				if(this.Address.GetType() == typeof(LatLng))
-				{
+				if (this.Address.GetType() == typeof(LatLng))
 					qsb.Append("latlng", Address.GetAsUrlParameter());
-				}
 				else
-				{
 					qsb.Append("address", Address.GetAsUrlParameter());
-				}
 			}
 			else
-			{
 				qsb.Append("place_id", PlaceId);
-			}
 
 			qsb.Append("bounds", GetBoundsStr())
 				.Append("components", Components != null ? Components.ToUrlParameters() : "")
@@ -113,12 +106,12 @@ namespace Google.Maps.Geocoding
 
 		private string GetBoundsStr()
 		{
-			if(this.Bounds == null) return null;
+			if (this.Bounds == null) return null;
 
 			string swStr = this.Bounds.Southwest.GetAsUrlParameter();
 			string neStr = this.Bounds.Northeast.GetAsUrlParameter();
 
-			return string.Concat(swStr + Constants.PIPE_URL_ENCODED + neStr);
+			return String.Concat(swStr + Constants.PIPE_URL_ENCODED + neStr);
 		}
 	}
 }

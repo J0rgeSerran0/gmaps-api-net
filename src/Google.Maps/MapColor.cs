@@ -38,17 +38,16 @@ namespace Google.Maps
 		public static MapColor FromName(string cssColor)
 		{
 			var color = new MapColor();
+
 			color.colorName = cssColor.ToLower();
+
 			return color;
 		}
 
 		/// <summary>
 		/// Create a color from RGB values and a fully opaque alpha
 		/// </summary>
-		public static MapColor FromArgb(int red, int green, int blue)
-		{
-			return FromArgb(255, red, green, blue);
-		}
+		public static MapColor FromArgb(int red, int green, int blue) => FromArgb(255, red, green, blue);
 
 		/// <summary>
 		/// Create a color from RGB and alpha values
@@ -56,7 +55,9 @@ namespace Google.Maps
 		public static MapColor FromArgb(int alpha, int red, int green, int blue)
 		{
 			var color = new MapColor();
+
 			color.value = (uint)(((uint)red << 24) + (green << 16) + (blue << 8) + alpha);
+
 			return color;
 		}
 
@@ -64,33 +65,31 @@ namespace Google.Maps
 		{
 			if (a.isNamedColor && b.isNamedColor) return a.colorName == b.colorName;
 			if (a.isNamedColor ^ b.isNamedColor) return false;
+
 			return a.value == b.value;
 		}
 
-		public static bool operator !=(MapColor a, MapColor b)
-		{
-			return a != b;
-		}
+		public static bool operator !=(MapColor a, MapColor b) => a != b;
 
 		public override bool Equals(object obj)
 		{
 			if (!(obj is MapColor)) return false;
+
 			var o = (MapColor)obj;
+
 			return this == o;
 		}
 
 		public override int GetHashCode()
 		{
 			if (isNamedColor) return colorName.GetHashCode();
+
 			return (int)value;
 		}
 
 #if HAS_SYSTEMDRAWING
-		public static implicit operator MapColor(System.Drawing.Color systemColor)
-		{
-			return FromArgb(systemColor.A, systemColor.R, systemColor.G, systemColor.B);
-		}
+		public static implicit operator MapColor(System.Drawing.Color systemColor) =>
+			FromArgb(systemColor.A, systemColor.R, systemColor.G, systemColor.B);
 #endif
-
 	}
 }

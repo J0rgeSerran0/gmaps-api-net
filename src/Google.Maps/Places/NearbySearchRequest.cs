@@ -77,62 +77,41 @@ namespace Google.Maps.Places
 
 			qsb.Append("location", Location.GetAsUrlParameter());
 
-			if(RankBy.GetValueOrDefault(Maps.RankBy.Prominence) != Maps.RankBy.Distance)
-			{
+			if (RankBy.GetValueOrDefault(Maps.RankBy.Prominence) != Maps.RankBy.Distance)
 				// Note that radius must not be included if rankby=distance
 				qsb.Append("radius", Radius.ToString());
-			}
 			else
-			{
 				qsb.Append("rankby", RankBy.Value.ToString().ToLowerInvariant());
-			}
 
-			if(!string.IsNullOrEmpty(Keyword))
-			{
+			if (!String.IsNullOrEmpty(Keyword))
 				qsb.Append("keyword", Keyword.ToString().ToLowerInvariant());
-			}
 
-			if(!string.IsNullOrEmpty(Name))
-			{
+			if (!String.IsNullOrEmpty(Name))
 				qsb.Append("name", Name.ToString().ToLowerInvariant());
-			}
 
-			if((Types != null && Types.Any()))
-			{
+			if ((Types != null && Types.Any()))
 				qsb.Append("types", TypesToUri());
-			}
 
-			if(!string.IsNullOrEmpty(Language))
-			{
+			if (!String.IsNullOrEmpty(Language))
 				qsb.Append("language", Language.ToLowerInvariant());
-			}
 
-			if(Minprice.HasValue)
-			{
+			if (Minprice.HasValue)
 				qsb.Append("minprice", Minprice.Value.ToString());
-			}
 
-			if(Maxprice.HasValue)
-			{
+			if (Maxprice.HasValue)
 				qsb.Append("maxprice", Maxprice.Value.ToString());
-			}
 
-			if(OpenNow.HasValue)
-			{
+			if (OpenNow.HasValue)
 				qsb.Append("opennow", OpenNow.Value.ToString().ToLowerInvariant());
-			}
 
-			if(!string.IsNullOrEmpty(PageToken))
-			{
+			if (!String.IsNullOrEmpty(PageToken))
 				qsb.Append("pagetoken", PageToken);
-			}
 
-			if(ZagatSelected)
-			{
+			if (ZagatSelected)
 				qsb.Append("zagatselected");
-			}
 
 			var url = "nearbysearch/json?" + qsb.ToString();
+
 			return new Uri(url, UriKind.Relative);
 		}
 
@@ -140,19 +119,13 @@ namespace Google.Maps.Places
 		{
 			base.ValidateRequest();
 
-			if(Location == null) throw new InvalidOperationException("Location property is not set");
+			if (Location == null) throw new InvalidOperationException("Location property is not set");
 
-			if(RankBy != null && RankBy != Maps.RankBy.Distance)
-			{
-				if(!Radius.HasValue) throw new ArgumentException("Radius property is not set.");
-			}
-			else if(RankBy != null && RankBy == Maps.RankBy.Distance)
-			{
-				if(string.IsNullOrEmpty(Keyword) && string.IsNullOrEmpty(Name) && (Types == null || !Types.Any()))
-				{
-					throw new ArgumentException("Atleast one of Keyword, Name or Types must be supplied.");
-				}
-			}
+			if (RankBy != null && RankBy != Maps.RankBy.Distance)
+				if (!Radius.HasValue) throw new ArgumentException("Radius property is not set.");
+				else if (RankBy != null && RankBy == Maps.RankBy.Distance)
+					if (String.IsNullOrEmpty(Keyword) && string.IsNullOrEmpty(Name) && (Types == null || !Types.Any()))
+						throw new ArgumentException("Atleast one of Keyword, Name or Types must be supplied.");
 		}
 	}
 }

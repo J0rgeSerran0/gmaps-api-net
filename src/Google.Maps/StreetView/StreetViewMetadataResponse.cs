@@ -15,12 +15,8 @@
  * limitations under the License.
  */
 
-using System;
-
-using Google.Maps.Common;
-
 using Newtonsoft.Json;
-
+using System;
 
 namespace Google.Maps.StreetView
 {
@@ -59,6 +55,5 @@ namespace Google.Maps.StreetView
 		/// </summary>
 		[JsonProperty("date")]
 		public DateTime Date { get; set; }
-
 	}
 }

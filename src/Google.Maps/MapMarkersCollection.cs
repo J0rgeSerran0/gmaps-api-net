@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Google.Maps
 {
-
 	/// <summary>
 	/// Contains a collection of <see cref="MapMarkers" />.
 	/// </summary>
@@ -12,9 +9,11 @@ namespace Google.Maps
 	{
 		public void Add(Location value)
 		{
-			MapMarkers m = new MapMarkers();
-			m.Locations.Add(value);
-			base.Add(m);
+			var mapMakers = new MapMarkers();
+
+			mapMakers.Locations.Add(value);
+
+			base.Add(mapMakers);
 		}
 
 		//public static implicit operator MarkersCollection(LatLng value)
@@ -37,7 +36,5 @@ namespace Google.Maps
 
 		//    return c;
 		//}
-
-
 	}
 }

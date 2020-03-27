@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-using Newtonsoft.Json;
-using System;
 using Google.Maps.Shared;
+using Newtonsoft.Json;
 
 namespace Google.Maps.Geocoding
 {

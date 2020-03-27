@@ -80,19 +80,14 @@ namespace Google.Maps.Places
 
 		protected virtual void ValidateRequest()
 		{
-			if(this.Minprice.HasValue && (this.Minprice < 0 || this.Minprice > 4)) throw new ArgumentException("Minprice property must have a value between 0 and 4 inclusive.");
+			if (this.Minprice.HasValue && (this.Minprice < 0 || this.Minprice > 4)) throw new ArgumentException("Minprice property must have a value between 0 and 4 inclusive.");
 
-			if(this.Maxprice.HasValue && (this.Maxprice < 0 || this.Maxprice > 4)) throw new ArgumentException("Maxprice property must have a value between 0 and 4 inclusive.");
+			if (this.Maxprice.HasValue && (this.Maxprice < 0 || this.Maxprice > 4)) throw new ArgumentException("Maxprice property must have a value between 0 and 4 inclusive.");
 
-			if(Radius.HasValue && Radius.Value > 50000)
-			{
+			if (Radius.HasValue && Radius.Value > 50000)
 				throw new InvalidOperationException("Radius property cannot be bigger than 50 000.");
-			}
 		}
 
-		protected string TypesToUri()
-		{
-			return string.Join("|", Types.Select(t => t.ToString().ToLowerInvariant()).ToArray<string>());
-		}
+		protected string TypesToUri() => String.Join("|", Types.Select(t => t.ToString().ToLowerInvariant()).ToArray<string>());
 	}
 }

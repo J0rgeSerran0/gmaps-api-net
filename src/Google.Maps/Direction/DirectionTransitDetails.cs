@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Google.Maps.Direction
 {
@@ -29,13 +25,5 @@ namespace Google.Maps.Direction
 
 		[JsonProperty("num_stops")]
 		public string NumberOfStops { get; set; }
-
-
-		public DirectionTransitDetails()
-		{
-
-		}
-
-
 	}
 }

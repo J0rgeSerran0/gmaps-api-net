@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-using NUnit.Framework;
-using Google.Maps.StreetView;
-using FluentAssertions.Collections;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Google.Maps.Test;
+using NUnit.Framework;
+using System;
 
 namespace Google.Maps.StreetView
 {
@@ -14,17 +10,17 @@ namespace Google.Maps.StreetView
 	{
 		Uri gmapsBaseUri = new Uri("http://maps.google.com/");
 
-
 		[Test]
 		public void BasicUri()
 		{
 			//arrange
 			var expected = Helpers.ParseQueryString("/maps/api/streetview?location=30.1,-60.2&size=512x512");
-			
+
 			StreetViewRequest sm = new StreetViewRequest()
 			{
 				Location = new LatLng(30.1, -60.2)
-				,Size = new MapSize(512, 512)
+				,
+				Size = new MapSize(512, 512)
 			};
 
 			//act
@@ -32,7 +28,7 @@ namespace Google.Maps.StreetView
 			var actual = Helpers.ParseQueryString(actualUri.PathAndQuery);
 
 			//assert
-			actual.ShouldAllBeEquivalentTo(expected);
+			actual.Should().BeEquivalentTo(expected);
 		}
 
 		[Test]
@@ -44,8 +40,10 @@ namespace Google.Maps.StreetView
 			StreetViewRequest sm = new StreetViewRequest()
 			{
 				Location = new LatLng(30.1, -60.2)
-				,Size = new MapSize(512, 512)
-				,Heading = 15
+				,
+				Size = new MapSize(512, 512)
+				,
+				Heading = 15
 			};
 
 			//act
@@ -53,7 +51,7 @@ namespace Google.Maps.StreetView
 			var actual = Helpers.ParseQueryString(actualUri.PathAndQuery);
 
 			//assert
-			actual.ShouldAllBeEquivalentTo(expected);
+			actual.Should().BeEquivalentTo(expected);
 		}
 
 		[Test]
@@ -65,8 +63,10 @@ namespace Google.Maps.StreetView
 			StreetViewRequest sm = new StreetViewRequest()
 			{
 				Location = new LatLng(30.1, -60.2)
-				,Size = new MapSize(512, 512)
-				,Pitch = 15
+				,
+				Size = new MapSize(512, 512)
+				,
+				Pitch = 15
 			};
 
 			//act
@@ -74,8 +74,7 @@ namespace Google.Maps.StreetView
 			var actual = Helpers.ParseQueryString(actualUri.PathAndQuery);
 
 			//assert
-			actual.ShouldAllBeEquivalentTo(expected);
+			actual.Should().BeEquivalentTo(expected);
 		}
-
 	}
 }

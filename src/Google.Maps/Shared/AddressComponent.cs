@@ -44,15 +44,13 @@ namespace Google.Maps.Shared
 		[JsonProperty("types")]
 		public AddressType[] Types { get; set; }
 
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as AddressComponent);
-		}
+		public override bool Equals(object obj) => Equals(obj as AddressComponent);
+
 		public bool Equals(AddressComponent obj)
 		{
 			if(obj == null) return false;
 
-			if(string.Compare(this.ShortName, obj.ShortName) != 0 || string.Compare(this.LongName, obj.LongName) != 0)
+			if(String.Compare(this.ShortName, obj.ShortName) != 0 || string.Compare(this.LongName, obj.LongName) != 0)
 				return false;
 
 			int thisTypesLength = -1, objTypesLength = -1;
@@ -83,10 +81,9 @@ namespace Google.Maps.Shared
 			{
 				hash += (hash * 7) + (this.ShortName ?? "").GetHashCode();
 				hash += (hash * 7) + (this.LongName ?? "").GetHashCode();
+
 				if(this.Types != null)
-				{
 					foreach(var type in this.Types) hash += (hash * 7) + type.GetHashCode();
-				}
 			}
 
 			return hash;

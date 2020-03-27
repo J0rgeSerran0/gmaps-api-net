@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Google.Maps
@@ -25,12 +23,10 @@ namespace Google.Maps
 			Locations = new List<Location>(locations);
 		}
 
-
 		/// <summary>
 		/// Gets or sets the size of marker from the set {tiny, mid, small}. If no size parameter is set, the marker will appear in its default (normal) size. (optional)
 		/// </summary>
 		public MarkerSizes MarkerSize { get; set; }
-
 
 		/// <summary>
 		/// Gets or sets the label for the markers.  This specifies a single uppercase alphanumeric character from the set {A-Z, 0-9}. (The requirement for uppercase characters is new to the 3.7 version of the API.)
@@ -39,7 +35,6 @@ namespace Google.Maps
 		/// </summary>
 		public string Label { get; set; }
 
-
 		/// <summary>
 		/// Gets or sets the color for the markers.  This property specifies a 24-bit color (example: color=0xFFFFCC)
 		/// or a predefined color from the set {black, brown, green, purple, yellow, blue, gray, orange, red, white}.
@@ -47,12 +42,10 @@ namespace Google.Maps
 		/// </summary>
 		public MapColor Color { get; set; }
 
-
 		/// <summary>
 		/// Gets the collection of Locations for the current style of map markers.
 		/// </summary>
 		public ICollection<Location> Locations { get; set; }
-
 
 		/// <summary>
 		/// Gets or sets the URL for the icon.  This specifies a URL to use as the marker's custom icon.
@@ -90,7 +83,7 @@ namespace Google.Maps
 			get { return _scale; }
 			set
 			{
-				if(value != null)
+				if (value != null)
 				{
 					Constants.IsExpectedScaleValue(value.Value, true);
 				}
@@ -99,9 +92,6 @@ namespace Google.Maps
 		}
 		private int? _scale;
 
-		public static implicit operator MapMarkers(Location location)
-		{
-			return new MapMarkers(location);
-		}
+		public static implicit operator MapMarkers(Location location) => new MapMarkers(location);
 	}
 }

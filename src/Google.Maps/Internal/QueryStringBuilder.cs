@@ -16,18 +16,16 @@
  */
 
 using System;
+using System.Text;
 
 namespace Google.Maps.Internal
 {
 	internal class QueryStringBuilder
 	{
-		System.Text.StringBuilder StringBuilder { get { return this._sb; } }
-		System.Text.StringBuilder _sb = new System.Text.StringBuilder();
+		StringBuilder StringBuilder { get { return this._stringBuilder; } }
+		StringBuilder _stringBuilder = new System.Text.StringBuilder();
 
-		public override string ToString()
-		{
-			return _sb.ToString();
-		}
+		public override string ToString() => _stringBuilder.ToString();
 
 		/// <summary>
 		/// Appends a key/value pair when the value isn't null.
@@ -37,10 +35,10 @@ namespace Google.Maps.Internal
 		/// <returns></returns>
 		public QueryStringBuilder Append(string key, string value)
 		{
-			if(string.IsNullOrEmpty(value) == false)
+			if (string.IsNullOrEmpty(value) == false)
 			{
-				if(_sb.Length > 0) _sb.Append("&");
-				_sb.Append(key).Append("=").Append(value);
+				if (_stringBuilder.Length > 0) _stringBuilder.Append("&");
+				_stringBuilder.Append(key).Append("=").Append(value);
 			}
 			return this;
 		}
@@ -61,11 +59,12 @@ namespace Google.Maps.Internal
 		/// <returns></returns>
 		public QueryStringBuilder Append(string value)
 		{
-			if(string.IsNullOrEmpty(value) == false)
+			if (String.IsNullOrEmpty(value) == false)
 			{
-				if(_sb.Length > 0) _sb.Append("&");
-				_sb.Append(value);
+				if (_stringBuilder.Length > 0) _stringBuilder.Append("&");
+				_stringBuilder.Append(value);
 			}
+
 			return this;
 		}
 	}

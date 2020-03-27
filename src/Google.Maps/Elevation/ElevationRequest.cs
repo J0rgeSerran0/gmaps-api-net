@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+using Google.Maps.Internal;
 using System;
 using System.Collections.Generic;
-using Google.Maps.Internal;
 
 namespace Google.Maps.Elevation
 {
@@ -38,7 +38,7 @@ namespace Google.Maps.Elevation
 		{
 			get
 			{
-				if(_locations == null) _locations = new List<LatLng>();
+				if (_locations == null) _locations = new List<LatLng>();
 				return _locations;
 			}
 		}
@@ -50,10 +50,10 @@ namespace Google.Maps.Elevation
 		/// <param name="locationCollection"></param>
 		public void AddLocations(params LatLng[] locationCollection)
 		{
-			if(locationCollection == null) return;
+			if (locationCollection == null) return;
 
 			IList<LatLng> myLocations = this.Locations;
-			foreach(LatLng item in locationCollection)
+			foreach (LatLng item in locationCollection)
 			{
 				this.Locations.Add(item);
 			}
@@ -72,7 +72,7 @@ namespace Google.Maps.Elevation
 		{
 			get
 			{
-				if(this._path == null) this._path = new List<LatLng>();
+				if (this._path == null) this._path = new List<LatLng>();
 				return this._path;
 			}
 		}
@@ -99,14 +99,8 @@ namespace Google.Maps.Elevation
 			return new Uri(url, UriKind.Relative);
 		}
 
-		private string GetLocationsStr()
-		{
-			return null;
-		}
+		private string GetLocationsStr() => null;
 
-		private string GetPathStr()
-		{
-			return null;
-		}
+		private string GetPathStr() => null;
 	}
 }

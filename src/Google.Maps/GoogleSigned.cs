@@ -80,20 +80,13 @@ namespace Google.Maps
 			string usablePrivateKey = null;
 
 			if(check[1].StartsWith("secret", StringComparison.OrdinalIgnoreCase))
-			{
 				usablePrivateKey = check[1].Substring(7);
-			}
 
 			if(String.IsNullOrEmpty(idString) == false)
-			{
 				return new GoogleSigned(idString, usablePrivateKey, signedType);
-			}
 
 			throw
-				new ArgumentException(
-					string.Format("Failed to determine Google Signing Info from '{0}'.", value),
-					nameof(value)
-				);
+				new ArgumentException(String.Format("Failed to determine Google Signing Info from '{0}'.", value), nameof(value));
 			
 		}
 
@@ -104,7 +97,6 @@ namespace Google.Maps
 		{
 			get { return S_universalSigningInstance; }
 		}
-
 
 		public string ReferralUrl { get { return _referralUrl; } }
 
@@ -133,25 +125,20 @@ namespace Google.Maps
 			if(_signType == GoogleSignedType.Business)
 			{
 				builder.Query = builder.Query.Substring(1) + "&client=" + _idString;
-				
 
 				if (!string.IsNullOrEmpty(_channelId))
-				{
 					builder.Query = builder.Query.Substring(1) + "&channel=" + _channelId;
-				}
-
 			}
 			else
-			{
 				builder.Query = builder.Query.Substring(1) + "&key=" + _idString;
-			}
 
 			uri = builder.Uri;
 
-			string signatureParam = "";
+			var signatureParam = String.Empty;
+
 			if(_privateKeyBytes != null)
 			{
-				string signature = GetSignature(uri);
+				var signature = GetSignature(uri);
 
 				signatureParam = "&signature=" + signature;
 			}
@@ -167,10 +154,7 @@ namespace Google.Maps
 		/// </remarks>
 		/// <param name="uri"></param>
 		/// <returns></returns>
-		public string GetSignedUri(string url)
-		{
-			return GetSignedUri(new Uri(url));
-		}
+		public string GetSignedUri(string url) => GetSignedUri(new Uri(url));
 
 		/// <summary>
 		/// Gets signature for the given uri.
@@ -182,10 +166,10 @@ namespace Google.Maps
 			byte[] encodedPathQuery = Encoding.ASCII.GetBytes(uri.LocalPath + uri.Query);
 
 			var hashAlgorithm = new HMACSHA1(_privateKeyBytes);
+
 			byte[] hashed = hashAlgorithm.ComputeHash(encodedPathQuery);
 
-			string signature = Base64_ForUrls(Convert.ToBase64String(hashed));
-			return signature;
+			return Base64_ForUrls(Convert.ToBase64String(hashed));
 		}
 
 		/// <summary>
@@ -193,10 +177,7 @@ namespace Google.Maps
 		/// </summary>
 		/// <param name="uri"></param>
 		/// <returns></returns>
-		public string GetSignature(string url)
-		{
-			return GetSignature(new Uri(url));
-		}
+		public string GetSignature(string url) => GetSignature(new Uri(url));
 
 		/// <summary>
 		/// Encodes a base64 string to be url-friendly.
@@ -205,25 +186,9 @@ namespace Google.Maps
 		/// <returns></returns>
 		static string Base64_ForUrls(string base64)
 		{
-			var sb = new StringBuilder(base64).Replace("+", "-").Replace("/", "_");
-			return sb.ToString();
+			var stringBuilder = new StringBuilder(base64).Replace("+", "-").Replace("/", "_");
+
+			return stringBuilder.ToString();
 		}
-
-	}
-
-	/// <summary>
-	/// Describes the way in which a Uri will be signed
-	/// </summary>
-	public enum GoogleSignedType
-	{
-		/// <summary>
-		/// Indicates that the Uri will be signed using an API Key which would allow per key quotas.
-		/// </summary>
-		ApiKey,
-
-		/// <summary>
-		/// Indicates that the Uri will be signed using the business client id and allows the use of the business services.
-		/// </summary>
-		Business
 	}
 }

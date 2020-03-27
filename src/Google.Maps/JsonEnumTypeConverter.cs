@@ -15,21 +15,19 @@
  * limitations under the License.
  */
 
-using System;
-using Google.Maps.Geocoding;
 using Google.Maps.Shared;
 using Newtonsoft.Json;
+using System;
 
 namespace Google.Maps
 {
-
 	public class JsonEnumTypeConverter : JsonConverter
 	{
 		public static ServiceResponseStatus AsResponseStatus(string s)
 		{
 			var result = ServiceResponseStatus.Unknown;
 
-			switch(s)
+			switch (s)
 			{
 				case "OK":
 					result = ServiceResponseStatus.Ok;
@@ -61,7 +59,7 @@ namespace Google.Maps
 		{
 			var result = AddressType.Unknown;
 
-			switch(s)
+			switch (s)
 			{
 				case "street_address":
 					result = AddressType.StreetAddress;
@@ -129,9 +127,9 @@ namespace Google.Maps
 				case "postal_code_prefix":
 					result = AddressType.PostalCodePrefix;
 					break;
-                case "postal_code_suffix":
-                    result = AddressType.PostalCodeSuffix;
-                    break;
+				case "postal_code_suffix":
+					result = AddressType.PostalCodeSuffix;
+					break;
 				case "natural_feature":
 					result = AddressType.NaturalFeature;
 					break;
@@ -164,7 +162,7 @@ namespace Google.Maps
 		private static Places.PlaceType AsPlaceType(string s)
 		{
 			var result = Places.PlaceType.Unknown;
-			switch(s)
+			switch (s)
 			{
 				case "accounting":
 					result = Places.PlaceType.Accounting;
@@ -531,7 +529,7 @@ namespace Google.Maps
 		{
 			var result = LocationType.Unknown;
 
-			switch(s)
+			switch (s)
 			{
 				case "ROOFTOP":
 					result = LocationType.Rooftop;
@@ -553,34 +551,32 @@ namespace Google.Maps
 		public override bool CanConvert(Type objectType)
 		{
 			return
-				objectType == typeof(ServiceResponseStatus)
-				|| objectType == typeof(AddressType)
-				|| objectType == typeof(LocationType)
-				|| objectType == typeof(Places.PlaceType);
+				objectType == typeof(ServiceResponseStatus) ||
+				objectType == typeof(AddressType) ||
+				objectType == typeof(LocationType) ||
+				objectType == typeof(Places.PlaceType);
 		}
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
 			object result = null;
 
-			if(objectType == typeof(ServiceResponseStatus))
+			if (objectType == typeof(ServiceResponseStatus))
 				result = AsResponseStatus(reader.Value.ToString());
 
-			if(objectType == typeof(AddressType))
+			if (objectType == typeof(AddressType))
 				result = AsAddressType(reader.Value.ToString());
 
-			if(objectType == typeof(LocationType))
+			if (objectType == typeof(LocationType))
 				result = AsLocationType(reader.Value.ToString());
 
-			if(objectType == typeof(Places.PlaceType))
+			if (objectType == typeof(Places.PlaceType))
 				result = AsPlaceType(reader.Value.ToString());
 
 			return result;
 		}
 
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-		{
+		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
 			throw new System.NotImplementedException();
-		}
 	}
 }

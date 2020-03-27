@@ -1,43 +1,68 @@
-﻿using System;
+﻿using Google.Maps;
+using Google.Maps.Geocoding;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using Google.Maps;
-using Google.Maps.Geocoding;
-
-namespace ConsoleApp1
+namespace ConsoleApp
 {
-	class Program
+	public class Program
 	{
-		static void Main(string[] args)
+		public static void Main(string[] args)
 		{
-			README_QuickStart_Sample1();
+			ForkedMessage();
+
+			README_QuickStart_Sample();
 
 			DoRequestsLoop();
 
-			if(System.Diagnostics.Debugger.IsAttached)
+			if (System.Diagnostics.Debugger.IsAttached)
 			{
 				Console.WriteLine("Hit any key to end.");
 				Console.ReadKey();
 			}
 		}
 
-		static void README_QuickStart_Sample1()
+		private static void ForkedMessage()
+		{
+			Console.ForegroundColor = ConsoleColor.Yellow;
+			Console.Write("Original Project from: ");
+			Console.ForegroundColor = ConsoleColor.Cyan;
+			Console.WriteLine("https://github.com/ericnewton76/gmaps-api-net");
+			Console.ForegroundColor = ConsoleColor.Yellow;
+			Console.Write("Forked by: ");
+			Console.ForegroundColor = ConsoleColor.Cyan;
+			Console.WriteLine("Jorge Serrano");
+			Console.ForegroundColor = ConsoleColor.Yellow;
+			Console.Write("Forked Project in: ");
+			Console.ForegroundColor = ConsoleColor.Cyan;
+			Console.WriteLine("https://github.com/ericnewton76/gmaps-api-net");
+			Console.WriteLine();
+			Console.ForegroundColor = ConsoleColor.Yellow;
+			Console.WriteLine("MAIN ACTIONS");
+			Console.ForegroundColor = ConsoleColor.Magenta;
+			Console.WriteLine("\tMigrated to .NET Core 3.1 (USING NET STANDARD 2.1)");
+			Console.WriteLine("\tUses System.Text.Json instead of Newtonsoft");
+			Console.WriteLine();
+			Console.ResetColor();
+		}
+
+		public static void README_QuickStart_Sample()
 		{
 			//always need to use YOUR_API_KEY for requests.  Do this in App_Start.
-			GoogleSigned.AssignAllServices(new GoogleSigned("YOUR_API_KEY"));
+			var signingInstance = new GoogleSigned("YOUR_API_KEY");
+			GoogleSigned.AssignAllServices(signingInstance);
 
 			var request = new GeocodingRequest();
 			request.Address = "1600 Pennsylvania Ave NW, Washington, DC 20500";
+
 			var response = new GeocodingService().GetResponse(request);
 
 			//The GeocodingService class submits the request to the API web service, and returns the
 			//response strongly typed as a GeocodeResponse object which may contain zero, one or more results.
 
 			//Assuming we received at least one result, let's get some of its properties:
-			if(response.Status == ServiceResponseStatus.Ok && response.Results.Count() > 0)
+			if (response.Status == ServiceResponseStatus.Ok && response.Results.Count() > 0)
 			{
 				var result = response.Results.First();
 
@@ -47,13 +72,10 @@ namespace ConsoleApp1
 				Console.WriteLine();
 			}
 			else
-			{
 				Console.WriteLine("Unable to geocode.  Status={0} and ErrorMessage={1}", response.Status, response.ErrorMessage);
-			}
-
 		}
 
-			static void DoRequestsLoop()
+		public static void DoRequestsLoop()
 		{
 			Dictionary<string, Action> menuchoice = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
 
@@ -68,19 +90,22 @@ namespace ConsoleApp1
 				Console.WriteLine("Q)uit");
 
 				keypress = Console.ReadKey(); Console.WriteLine();
+
 				var key = keypress.KeyChar.ToString();
 
 				Action actionfunc = null;
-				if(menuchoice.ContainsKey(key) ==true)
+
+				if (menuchoice.ContainsKey(key) == true)
 				{
 					actionfunc = menuchoice[key];
-					if(actionfunc != null) actionfunc();
+
+					if (actionfunc != null) actionfunc();
 				}
 
-			} while(keypress.Key != ConsoleKey.Q);
+			} while (keypress.Key != ConsoleKey.Q);
 		}
 
-		static void DoGeocodeRequest()
+		public static void DoGeocodeRequest()
 		{
 			//always need to use YOUR_API_KEY for requests.  Do this in App_Start.
 			//GoogleSigned.AssignAllServices(new GoogleSigned("YOUR_API_KEY"));
@@ -88,17 +113,19 @@ namespace ConsoleApp1
 
 			Console.WriteLine();
 			Console.WriteLine("Enter an address to geocode: ");
-			string geocodeAddress = Console.ReadLine();
+
+			var geocodeAddress = Console.ReadLine();
 
 			var request = new GeocodingRequest();
 			request.Address = geocodeAddress;
+
 			var response = new GeocodingService().GetResponse(request);
 
 			//The GeocodingService class submits the request to the API web service, and returns the
 			//response strongly typed as a GeocodeResponse object which may contain zero, one or more results.
 
 			//Assuming we received at least one result, let's get some of its properties:
-			if(response.Status == ServiceResponseStatus.Ok && response.Results.Count() > 0)
+			if (response.Status == ServiceResponseStatus.Ok && response.Results.Count() > 0)
 			{
 				var result = response.Results.First();
 
@@ -108,10 +135,7 @@ namespace ConsoleApp1
 				Console.WriteLine();
 			}
 			else
-			{
 				Console.WriteLine("Unable to geocode.  Status={0} and ErrorMessage={1}", response.Status, response.ErrorMessage);
-			}
 		}
-
 	}
 }

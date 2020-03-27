@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <Version>0.50.1</Version>
+    <FileVersion>0.50.1</FileVersion>
+		<ProductVersion>0.50.1</ProductVersion>
+    <Company>Google Maps API for .NET</Company>
+    <Copyright>Forked from https://github.com/ericnewton76/gmaps-api-net - Eric Newton</Copyright>
+		<Title>Google Maps API for .NET Service</Title>
+		<Description>Google Maps API for .NET service library</Description>
+  </PropertyGroup>
+</Project>

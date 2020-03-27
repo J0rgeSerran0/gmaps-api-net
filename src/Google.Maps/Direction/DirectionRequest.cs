@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Google.Maps;
 using System.ComponentModel;
+using System.Text;
 
 namespace Google.Maps.Direction
 {
@@ -35,7 +34,7 @@ namespace Google.Maps.Direction
 		/// Note that providing route alternatives may increase the response time from the server.
 		/// </summary>
 		public bool? Alternatives { get; set; }
-		
+
 		/// <summary>
 		/// (optional) If set to true, specifies that the Directions service should optimize the order of the waypoints in the response.
 		/// </summary>
@@ -68,7 +67,7 @@ namespace Google.Maps.Direction
 
 		private List<Location> EnsureWaypoints()
 		{
-			if(_waypoints == null) _waypoints = new List<Location>(); //may use a static readonly empty list instead of creating one everytime.
+			if (_waypoints == null) _waypoints = new List<Location>(); //may use a static readonly empty list instead of creating one everytime.
 			return _waypoints;
 		}
 
@@ -91,20 +90,20 @@ namespace Google.Maps.Direction
 		/// <param name="waypoint"></param>
 		public void AddWaypoint(Location waypoint)
 		{
-			if(waypoint == null) return;
+			if (waypoint == null) return;
 			EnsureWaypoints().Add(waypoint);
 		}
 
 		internal string WaypointsToUri()
 		{
-			if(this._waypoints == null || this._waypoints.Count == 0) return null;
+			if (this._waypoints == null || this._waypoints.Count == 0) return null;
 
 			StringBuilder sb = new StringBuilder();
-			if(Optimize == true) sb.Append("optimize:true");
+			if (Optimize == true) sb.Append("optimize:true");
 
-			foreach(Location waypoint in this._waypoints)
+			foreach (Location waypoint in this._waypoints)
 			{
-				if(sb.Length > 0) sb.Append("|");
+				if (sb.Length > 0) sb.Append("|");
 				sb.Append(waypoint.ToString());
 			}
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Google.Maps
@@ -21,16 +20,17 @@ namespace Google.Maps
 		private static string[] S_ExpectedNamedColors;
 		public static bool IsExpectedNamedColor(string value)
 		{
-			if(value == null) return false;
+			if (value == null) return false;
+
 			return (Contains(S_ExpectedNamedColors, value, true));
 		}
 
 		private static int[] S_ExpectedScaleValues;
 		public static bool IsExpectedScaleValue(int value, bool throwIfOutOfRange)
 		{
-			if(Contains(S_ExpectedScaleValues, value) == true) return true;
+			if (Contains(S_ExpectedScaleValues, value) == true) return true;
 
-			if(throwIfOutOfRange)
+			if (throwIfOutOfRange)
 				throw new ArgumentOutOfRangeException("Scale value can only be " + ListValues(S_ExpectedScaleValues));
 			else
 				return false;
@@ -46,9 +46,9 @@ namespace Google.Maps
 		private static bool Contains(string[] array, string value, bool ignoreCase)
 		{
 			//TODO: rewrite for speed somehow
-			for(int i = 0; i < array.Length; i++)
+			for (int i = 0; i < array.Length; i++)
 			{
-				if(string.Compare(array[i], value, ignoreCase) == 0) return true;
+				if (string.Compare(array[i], value, ignoreCase) == 0) return true;
 			}
 
 			return false;
@@ -56,36 +56,36 @@ namespace Google.Maps
 		private static bool Contains(int[] array, int value)
 		{
 			//TODO: rewrite for speed somehow
-			for(int i = 0; i < array.Length; i++)
-			{
-				if(array[i] == value) return true;
-			}
+			for (int i = 0; i < array.Length; i++)
+				if (array[i] == value) return true;
 
 			return false;
 		}
 		private static string ListValues(int[] array)
 		{
 			//TODO: rewrite for speed somehow
-			System.Text.StringBuilder sb = new StringBuilder();
-			for(int i = 0; i < array.Length; i++)
+			var stringBuilder = new StringBuilder();
+
+			for (int i = 0; i < array.Length; i++)
 			{
-				if(sb.Length > 0) sb.Append(",");
-				sb.Append(array[i]);
+				if (stringBuilder.Length > 0) stringBuilder.Append(",");
+				stringBuilder.Append(array[i]);
 			}
-			return sb.ToString();
+
+			return stringBuilder.ToString();
 		}
 
 		internal static void CheckHeadingRange(short value, string parameterName)
 		{
 			const string HEADING_PARAMETER_RANGE = "Heading value must be greater or equal to 0 and less than or equal to 360";
-			if(value < 0) throw new ArgumentOutOfRangeException(parameterName, HEADING_PARAMETER_RANGE);
-			if(value > 360) throw new ArgumentOutOfRangeException(parameterName, HEADING_PARAMETER_RANGE);
+			if (value < 0) throw new ArgumentOutOfRangeException(parameterName, HEADING_PARAMETER_RANGE);
+			if (value > 360) throw new ArgumentOutOfRangeException(parameterName, HEADING_PARAMETER_RANGE);
 		}
 
 		internal static void CheckPitchRange(short value, string parameterName)
 		{
 			const string PITCH_PARAMETER_RANGE = "Pitch value must be greater or equal to -90 and less than or equal to 90.";
-			if(value < -90 || value > 90) throw new ArgumentOutOfRangeException(PITCH_PARAMETER_RANGE, parameterName);
+			if (value < -90 || value > 90) throw new ArgumentOutOfRangeException(PITCH_PARAMETER_RANGE, parameterName);
 		}
 
 		internal static void CheckFieldOfViewRange(short value, string parameterName)
@@ -95,6 +95,5 @@ namespace Google.Maps
 		}
 
 		#endregion
-
 	}
 }

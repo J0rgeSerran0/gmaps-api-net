@@ -25,7 +25,7 @@ namespace Google.Maps
 			int plng = 0;
 			StringBuilder encodedCoordinates = new StringBuilder();
 
-			foreach(LatLng coordinate in coordinates)
+			foreach (LatLng coordinate in coordinates)
 			{
 				// Round to 5 decimal places and drop the decimal
 				int late5 = (int)(coordinate.Latitude * oneEFive);
@@ -54,7 +54,7 @@ namespace Google.Maps
 			//http://www.codeproject.com/Tips/312248/Google-Maps-Direction-API-V3-Polyline-Decoder
 			//note the Code Project Open License at http://www.codeproject.com/info/cpol10.aspx
 
-			if(value == null || value == "") return new List<LatLng>(0);
+			if (value == null || value == "") return new List<LatLng>(0);
 
 			char[] polylinechars = value.ToCharArray();
 			int index = 0;
@@ -67,7 +67,7 @@ namespace Google.Maps
 
 			List<LatLng> poly = new List<LatLng>();
 
-			while(index < polylinechars.Length)
+			while (index < polylinechars.Length)
 			{
 				// calculate next latitude
 				sum = 0;
@@ -77,9 +77,9 @@ namespace Google.Maps
 					next5bits = (int)polylinechars[index++] - 63;
 					sum |= (next5bits & 31) << shifter;
 					shifter += 5;
-				} while(next5bits >= 32 && index < polylinechars.Length);
+				} while (next5bits >= 32 && index < polylinechars.Length);
 
-				if(index >= polylinechars.Length)
+				if (index >= polylinechars.Length)
 					break;
 
 				currentLat += (sum & 1) == 1 ? ~(sum >> 1) : (sum >> 1);
@@ -92,9 +92,9 @@ namespace Google.Maps
 					next5bits = (int)polylinechars[index++] - 63;
 					sum |= (next5bits & 31) << shifter;
 					shifter += 5;
-				} while(next5bits >= 32 && index < polylinechars.Length);
+				} while (next5bits >= 32 && index < polylinechars.Length);
 
-				if(index >= polylinechars.Length && next5bits >= 32)
+				if (index >= polylinechars.Length && next5bits >= 32)
 					break;
 
 				currentLng += (sum & 1) == 1 ? ~(sum >> 1) : (sum >> 1);
@@ -116,10 +116,10 @@ namespace Google.Maps
 		private static string EncodeSignedNumber(int num)
 		{
 			int sgn_num = num << 1; //shift the binary value
-			if(num < 0) //if negative invert
-			{
+
+			if (num < 0) //if negative invert
 				sgn_num = ~(sgn_num);
-			}
+
 			return (EncodeNumber(sgn_num));
 		}
 
@@ -130,13 +130,16 @@ namespace Google.Maps
 		/// <returns>The encoded string</returns>
 		private static string EncodeNumber(int num)
 		{
-			StringBuilder encodeString = new StringBuilder();
-			while(num >= 0x20)
+			var encodeString = new StringBuilder();
+
+			while (num >= 0x20)
 			{
 				encodeString.Append((char)((0x20 | (num & 0x1f)) + 63));
 				num >>= 5;
 			}
+
 			encodeString.Append((char)(num + 63));
+
 			// All backslashes needs to be replaced with double backslashes
 			// before being used in a Javascript string.
 			return encodeString.ToString();
